@@ -3,6 +3,7 @@ package com.jcmvesco.minesweeper.domain;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Board {
@@ -21,6 +22,9 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Cell> cells = new ArrayList<>();
+
+    public Board() {
+    }
 
     public Board(int cantRows, int cantColumns, int cantMines) {
         this.cantRows = cantRows;
@@ -54,6 +58,10 @@ public class Board {
     public Cell getCell(int row, int column) {
         int index = row * cantColumns + column;
         return cells.get(index);
+    }
+
+    public List<Cell> getNeighbors(Cell cell) {
+        return cells.stream().filter(c -> c.isNeighborOf(cell)).collect(Collectors.toList());
     }
 
     public Long getId() {

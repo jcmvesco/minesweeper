@@ -1,8 +1,9 @@
 package com.jcmvesco.minesweeper.domain;
 
+import com.jcmvesco.minesweeper.domain.exception.CellCannotBeFlaggedOrMarkedException;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
 import com.jcmvesco.minesweeper.domain.exception.CellExplodedException;
-import com.jcmvesco.minesweeper.domain.exception.GameLostException;
+import com.jcmvesco.minesweeper.domain.exception.GameFinishedException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,23 +32,66 @@ public class Game {
     @Column(name = "moves")
     private int moves;
 
+    public Game() {
+    }
+
     public Game(Board board) {
         this.board = board;
         this.state = GameState.CREATED;
     }
 
     private void start() {
-        startTime = LocalDateTime.now();
-        state = GameState.STARTED;
-        moves = 0;
+        this.startTime = LocalDateTime.now();
+        this.state = GameState.STARTED;
+        this.moves = 0;
     }
 
-    public void discoverCell(int row, int column) throws CellCannotBeOpenedException, GameLostException {
+    private void finish(GameState state) {
+        this.endTime = LocalDateTime.now();
+        this.state = state;
+    }
+
+    public void discoverCell(int row, int column) throws CellCannotBeOpenedException, GameFinishedException {
         try {
+            if(GameState.CREATED.equals(this.state)) {
+                start();
+            }
+            this.moves++;
             getBoard().getCell(row, column).discover();
+            if(isAllDiscovered()) {
+                finish(GameState.WON);
+                throw new GameFinishedException(this);
+            }
         } catch (CellExplodedException e) {
-            setState(GameState.LOST);
-            throw new GameLostException();
+            finish(GameState.LOST);
+            throw new GameFinishedException(this);
+        }
+    }
+
+    public void flagCell(int row, int column) {
+        Cell cell = getBoard().getCell(row, column);
+        if(!cell.isFlagged() && !cell.isOpened()) {
+            cell.flag();
+        } else {
+            throw new CellCannotBeFlaggedOrMarkedException("This cell (%d,%d) is already flagged or it's opened");
+        }
+    }
+
+    public void markCell(int row, int column) {
+        Cell cell = getBoard().getCell(row, column);
+        if(!cell.isMarked()  && !cell.isOpened()) {
+            cell.mark();
+        } else {
+            throw new CellCannotBeFlaggedOrMarkedException("This cell (%d,%d) is already marked or it's opened");
+        }
+    }
+
+    public void clearCell(int row, int column) {
+        Cell cell = getBoard().getCell(row, column);
+        if(cell.isMarked() || cell.isFlagged()) {
+            cell.clear();
+        } else {
+            throw new CellCannotBeFlaggedOrMarkedException("This cell (%d,%d) cannot be un-flagged or un-marked");
         }
     }
 
@@ -100,7 +144,10 @@ public class Game {
     }
 
     public boolean isAllDiscovered() {
-        //TODO
-        return false;
+        return this.board.getCells().stream().noneMatch(c -> !c.isMine() && !CellState.OPENED.equals(c.getState()));
+    }
+
+    public boolean isNotEnded() {
+        return !GameState.WON.equals(this.state) && !GameState.LOST.equals(this.state);
     }
 }

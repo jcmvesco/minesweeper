@@ -4,10 +4,12 @@ import com.jcmvesco.minesweeper.api.Action;
 import com.jcmvesco.minesweeper.domain.Board;
 import com.jcmvesco.minesweeper.domain.Game;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
-import com.jcmvesco.minesweeper.domain.exception.GameLostException;
+import com.jcmvesco.minesweeper.domain.exception.GameNotFoundException;
 import com.jcmvesco.minesweeper.domain.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class GameService {
@@ -24,25 +26,39 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public Game click(Long id, int row, int column, Action action) throws CellCannotBeOpenedException {
-        Game game = gameRepository.get(id);
-        try {
-            switch (action) {
-                case DISCOVER:
-                    game.discoverCell(row, column);
-                    break;
-                case FLAG:
-                    game.getBoard().getCell(row, column).flag();
-                    break;
-                case UNFLAG:
-                    game.getBoard().getCell(row, column).unFlag();
-                    break;
+    public Game takeAction(Long id, int row, int column, Action action) throws CellCannotBeOpenedException {
+        Game game = findById(id);
+        if(game.isNotEnded()) {
+            try {
+                switch (action) {
+                    case DISCOVER:
+                        game.discoverCell(row, column);
+                        break;
+                    case FLAG:
+                        game.flagCell(row, column);
+                        break;
+                    case MARK:
+                        game.markCell(row, column);
+                        break;
+                    case CLEAR:
+                        game.clearCell(row, column);
+                        break;
+                }
+            } finally {
+                gameRepository.save(game);
             }
-        } catch (GameLostException e) {
-            //TODO
-        } finally {
-            gameRepository.update(game);
+            return game;
+        } else {
+            throw new CellCannotBeOpenedException(String.format("Game with id %d is already ended", id));
         }
-        return game;
+    }
+
+    public Game findById(Long id) {
+        Optional<Game> gameOptional = gameRepository.findById(id);
+        if(gameOptional.isPresent()) {
+            return gameOptional.get();
+        } else {
+            throw new GameNotFoundException();
+        }
     }
 }

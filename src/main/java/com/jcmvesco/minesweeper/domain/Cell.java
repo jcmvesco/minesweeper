@@ -4,6 +4,7 @@ import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
 import com.jcmvesco.minesweeper.domain.exception.CellExplodedException;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Cell {
@@ -20,6 +21,9 @@ public class Cell {
     @Column(name = "mine", nullable = false)
     private boolean mine;
 
+    @Column(name = "neighbor_mines_cant")
+    private Integer neighborMinesCant;
+
     @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
     private CellState state;
@@ -28,6 +32,9 @@ public class Cell {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
+    public Cell() {
+    }
+
     public Cell(int row, int column, Board board) {
         this.row = row;
         this.column = column;
@@ -35,11 +42,27 @@ public class Cell {
         this.state = CellState.CLOSED;
     }
 
+    public boolean isOpened() {
+        return CellState.OPENED.equals(this.state);
+    }
+
     public void flag() {
         this.setState(CellState.FLAGGED);
     }
 
-    public void unFlag() {
+    public boolean isFlagged() {
+        return CellState.FLAGGED.equals(this.state);
+    }
+
+    public void mark() {
+        this.setState(CellState.MARKED);
+    }
+
+    public boolean isMarked() {
+        return CellState.MARKED.equals(this.state);
+    }
+
+    public void clear() {
         this.setState(CellState.CLOSED);
     }
 
@@ -51,17 +74,25 @@ public class Cell {
                 open();
             }
         } else {
-            throw new CellCannotBeOpenedException();
+            throw new CellCannotBeOpenedException(String.format("This cell (%d,%d) is already opened, flagged or marked", row, column));
         }
     }
 
     private void open() {
-        //TODO
+        this.setState(CellState.OPENED);
+        List<Cell> neighbors = this.board.getNeighbors(this);
+        neighborMinesCant = (int) neighbors.stream().filter(Cell::isMine).count();
+        if(neighborMinesCant == 0) {
+            neighbors.stream().filter(Cell::isAbleToOpen).forEach(Cell::open);
+        }
     }
 
     private boolean isAbleToOpen() {
-        //TODO
-        return false;
+        return CellState.CLOSED.equals(this.state);
+    }
+
+    public boolean isNeighborOf(Cell cell) {
+        return this != cell && Math.abs(this.column - cell.getColumn()) <= 1 && Math.abs(this.row - cell.getRow()) <= 1;
     }
 
     private void explode() throws CellExplodedException {
@@ -99,6 +130,14 @@ public class Cell {
 
     public void setMine(boolean mine) {
         this.mine = mine;
+    }
+
+    public Integer getNeighborMinesCant() {
+        return neighborMinesCant;
+    }
+
+    public void setNeighborMinesCant(Integer neighborMinesCant) {
+        this.neighborMinesCant = neighborMinesCant;
     }
 
     public CellState getState() {

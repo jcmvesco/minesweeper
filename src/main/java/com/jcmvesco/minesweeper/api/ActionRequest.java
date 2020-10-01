@@ -2,7 +2,7 @@ package com.jcmvesco.minesweeper.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ClickRequest {
+public class ActionRequest {
     @JsonProperty
     private int row;
     @JsonProperty
@@ -10,7 +10,7 @@ public class ClickRequest {
     @JsonProperty
     private Action action;
 
-    public ClickRequest(int row, int column, Action action) {
+    public ActionRequest(int row, int column, Action action) {
         this.row = row;
         this.column = column;
         this.action = action;

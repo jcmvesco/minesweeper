@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificationExecutor<Game> {
     Game save(Game game);
-    Game get(Long id);
-    Game update(Game game);
 }
