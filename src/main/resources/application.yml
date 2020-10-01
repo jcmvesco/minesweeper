@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path:
+      /api/minesweeper
+  port: 8080
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      base-path: /
+spring:
+  datasource:
+    initialize: true
+    driverClassName: org.h2.Driver
+    url: "jdbc:h2:mem:mineSweeperDB"
+    username: user
+    password: password
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    show-sql: true
+    hibernate:
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        connection:
+          release_mode: on_close
