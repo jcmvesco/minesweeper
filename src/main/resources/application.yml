@@ -10,11 +10,11 @@ management:
       base-path: /
 spring:
   datasource:
-    initialize: true
-    driverClassName: org.h2.Driver
-    url: "jdbc:h2:mem:mineSweeperDB"
-    username: user
-    password: password
+    initialize: false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://bd82e129dba2bd:4f9c6641@us-cdbr-east-02.cleardb.com/heroku_e790c3d4b44aa06?reconnect=true"
+    username: bd82e129dba2bd
+    password: 4f9c6641
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
@@ -24,6 +24,6 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         connection:
           release_mode: on_close
