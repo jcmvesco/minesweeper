@@ -10,12 +10,11 @@
 	<groupId>com.jcmvesco</groupId>
 	<artifactId>minesweeper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 	<name>minesweeper</name>
 	<description>Minesweeper</description>
 
 	<properties>
-		<java.version>12</java.version>
+		<java.version>14</java.version>
 	</properties>
 
 	<dependencies>
