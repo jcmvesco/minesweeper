@@ -18,7 +18,7 @@ public class Utils {
      * @param game the original object
      * @return GameResponse is the interface to deal with both game response objects
      */
-    public static GameResponse mapGameInProgress(Game game) {
+    public static GameInProgressResponse mapGameInProgress(Game game) {
         List<GameInProgressCellResponse> cellResponseList = game.getBoard().getCells().stream().map(c -> new GameInProgressCellResponse(c.getRow(), c.getColumn(), c.getNeighborMinesCant(), c.getState().name())).collect(Collectors.toList());
         GameInProgressBoardResponse boardResponse = new GameInProgressBoardResponse();
         boardResponse.setCells(cellResponseList);

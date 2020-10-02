@@ -30,14 +30,14 @@ public class MineSweeperController {
 
     @ApiOperation(value = "createNewGame", notes = "Creates a new minesweeper game", response = Long.class)
     @PostMapping
-    public ResponseEntity<GameResponse> createNewGame(@RequestBody NewGameRequest request) {
+    public ResponseEntity<GameInProgressResponse> createNewGame(@RequestBody NewGameRequest request) {
         Game game = gameService.createNewGame(request.getCantRows(), request.getCantColumns(), request.getCantMines(), request.getUserName());
         return new ResponseEntity<>(mapGameInProgress(game), HttpStatus.OK);
     }
 
     @ApiOperation(value = "takeAction", notes = "Takes an action over a cell", response = GameInProgressResponse.class)
     @PostMapping("/{id}")
-    public ResponseEntity<GameResponse> takeAction(@PathVariable Long id, @RequestBody ActionRequest request) {
+    public ResponseEntity<GameInProgressResponse> takeAction(@PathVariable Long id, @RequestBody ActionRequest request) {
         Game game = gameService.takeAction(id, request.getRow(), request.getColumn(), request.getAction());
         return new ResponseEntity<>(mapGameInProgress(game),HttpStatus.OK);
     }

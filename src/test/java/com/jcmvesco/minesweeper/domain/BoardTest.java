@@ -1,5 +1,6 @@
 package com.jcmvesco.minesweeper.domain;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
+    @DisplayName("Populates a board with mines randomly")
     void populateMines() {
         Game game = createGame();
         Board board = game.getBoard();
@@ -18,6 +20,7 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("Retrieves the cell (1,1) from the given board")
     void getCell() {
         Game game = createGame();
         Board board = game.getBoard();
@@ -27,6 +30,7 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("Retrieves neighbors of the cell (0,3) from the given board (2x4)")
     void getNeighbors() {
         Game game = createGame();
         Board board = game.getBoard();

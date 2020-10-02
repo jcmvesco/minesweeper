@@ -1,15 +1,20 @@
 package com.jcmvesco.minesweeper.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class GameInProgressCellResponse {
     @JsonProperty
+    @Schema(example = "4")
     private int row;
     @JsonProperty
+    @Schema(example = "4")
     private int column;
     @JsonProperty
+    @Schema(example = "1")
     private Integer neighborMinesCant;
     @JsonProperty
+    @Schema(example = "CLOSED, OPENED, FLAGGED, MARKED, EXPLODED")
     private String state;
 
     public GameInProgressCellResponse(int row, int column, Integer neighborMinesCant, String state) {

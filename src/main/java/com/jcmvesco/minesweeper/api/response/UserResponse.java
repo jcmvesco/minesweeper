@@ -1,11 +1,14 @@
 package com.jcmvesco.minesweeper.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class UserResponse {
     @JsonProperty
+    @Schema(example = "1")
     private Long id;
     @JsonProperty
+    @Schema(example = "Jhon")
     private String name;
 
     public UserResponse() {

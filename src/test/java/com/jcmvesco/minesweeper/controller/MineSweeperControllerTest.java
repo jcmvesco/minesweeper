@@ -12,6 +12,7 @@ import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
 import com.jcmvesco.minesweeper.domain.exception.GameNotFoundException;
 import com.jcmvesco.minesweeper.domain.service.GameService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -45,6 +46,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Successful new game creation and returns 200")
     void createNewGame() throws Exception {
         when(gameService.createNewGame(anyInt(), anyInt(), anyInt(), anyString())).thenReturn(createGame());
         NewGameRequest request = new NewGameRequest(2,4,2, "test");
@@ -60,6 +62,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Successful action taken over a game in progress and returns 200")
     void takeAction() throws Exception {
         when(gameService.takeAction(anyLong(), anyInt(), anyInt(), any())).thenReturn(createGame());
         ActionRequest request = new ActionRequest(2,4, Action.DISCOVER);
@@ -75,6 +78,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Fails to take an action over a game in progress and returns a 406")
     void takeActionFails() throws Exception {
         when(gameService.takeAction(anyLong(), anyInt(), anyInt(), any())).thenThrow(new CellCannotBeOpenedException("Game with id 1 is already ended"));
         ActionRequest request = new ActionRequest(2,4, Action.DISCOVER);
@@ -90,6 +94,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Retrieves a game with response of a game in progress and returns 200")
     void getGameInProgress() throws Exception {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -107,6 +112,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Retrieves a game with response of a game finished and returns 200")
     void getGameInFinished() throws Exception {
         Game game = createGame();
         game.setState(GameState.WON);
@@ -124,6 +130,7 @@ class MineSweeperControllerTest {
     }
 
     @Test
+    @DisplayName("Fails to retrieve a game and returns 404")
     void getGameNotFound() throws Exception {
         Game game = createGame();
         game.setState(GameState.WON);

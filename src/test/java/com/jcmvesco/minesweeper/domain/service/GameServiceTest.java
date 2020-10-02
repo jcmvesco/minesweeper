@@ -11,6 +11,7 @@ import com.jcmvesco.minesweeper.domain.repository.GameRepository;
 import com.jcmvesco.minesweeper.domain.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -40,6 +41,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Creates a new game with a 2x3 board and 2 mines")
     void createNewGame() {
         Game game = gameService.createNewGame(2,3,2, "Test");
         ArgumentCaptor<Game> gameCaptor = ArgumentCaptor.forClass(Game.class);
@@ -48,6 +50,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Takes an action over a game with a 2x4 board and 2 mines")
     void takeActionSuccess() {
         Game game = createGame();
         when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
@@ -58,6 +61,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Takes an action over a game with a 2x4 board and 2 mines and wins the game")
     void takeActionDiscoverCellWinGame() {
         Game game = createGame();
         when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
@@ -70,6 +74,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Tries to take an action over a finished game with a 2x4 board and 2 mines")
     void takeActionDiscoverCellGameFinishedFails() throws Exception {
         Game game = createGame();
         when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
@@ -83,6 +88,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Finds a game given its id")
     void findById() throws Exception {
         Game game1 = createGame();
         when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game1));
@@ -91,6 +97,7 @@ class GameServiceTest {
     }
 
     @Test
+    @DisplayName("Fails in find a game given its id")
     void findByIdNotFound() throws Exception {
         Game game1 = createGame();
         when(gameRepository.findById(anyLong())).thenReturn(Optional.empty());

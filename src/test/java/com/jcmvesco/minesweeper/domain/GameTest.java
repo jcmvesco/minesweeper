@@ -3,6 +3,7 @@ package com.jcmvesco.minesweeper.domain;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeFlaggedOrMarkedException;
 import com.jcmvesco.minesweeper.domain.exception.GameFinishedException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void discoverCellAndCreateGame() {
+    @DisplayName("Starts a game by discovering its first cell")
+    void discoverCellAndStartGame() {
         Game game = createGame();
         assertEquals(GameState.CREATED, game.getState());
         game.discoverCell(0,3);
@@ -23,6 +25,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Wins the game by discovering all non mined cells")
     void winGame() {
         Game game = createGame();
         game.discoverCell(0,3);
@@ -35,6 +38,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Loose the game by discovering a mined cell")
     void lostGame() {
         Game game = createGame();
         game.discoverCell(0,3);
@@ -43,6 +47,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Flags a cell")
     void flagCell() {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -52,6 +57,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Fails on flag a cell that is already flagged")
     void flagCellFail() {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -60,6 +66,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Marks a cell")
     void markCell() {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -69,6 +76,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Fails on mark a cell that is already flagged")
     void markCellFail() {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -77,6 +85,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Clears a cell")
     void clearCell() throws Exception {
         Game game = createGame();
         game.setState(GameState.STARTED);
@@ -87,6 +96,7 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("Fails on clear a cell that is not flagged or marked")
     void clearCellFails() throws Exception {
         Game game = createGame();
         game.setState(GameState.STARTED);

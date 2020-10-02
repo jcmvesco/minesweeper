@@ -1,15 +1,19 @@
 package com.jcmvesco.minesweeper.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
 public class GameFinishedBoardResponse {
     @JsonProperty
+    @Schema(example = "4")
     private int rows;
     @JsonProperty
+    @Schema(example = "4")
     private int columns;
     @JsonProperty
+    @Schema(example = "3")
     private int mines;
     @JsonProperty
     private List<GameFinishedCellResponse> cells;

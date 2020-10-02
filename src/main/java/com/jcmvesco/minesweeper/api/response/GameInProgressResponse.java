@@ -1,13 +1,16 @@
 package com.jcmvesco.minesweeper.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
 public class GameInProgressResponse implements GameResponse {
     @JsonProperty
+    @Schema(example = "1")
     private Long id;
     @JsonProperty
+    @Schema(example = "CREATED, STARTED, WON, LOST")
     private String state;
     @JsonProperty
     private LocalDateTime started;
@@ -16,6 +19,7 @@ public class GameInProgressResponse implements GameResponse {
     @JsonProperty
     private GameInProgressBoardResponse board;
     @JsonProperty
+    @Schema(example = "10")
     private int moves;
     @JsonProperty
     private UserResponse user;

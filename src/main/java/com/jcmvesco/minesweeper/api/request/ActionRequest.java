@@ -1,13 +1,17 @@
 package com.jcmvesco.minesweeper.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ActionRequest {
     @JsonProperty
+    @Schema(example = "4")
     private int row;
     @JsonProperty
+    @Schema(example = "4")
     private int column;
     @JsonProperty
+    @Schema(example = "DISCOVER, FLAG, MARK, CLEAR")
     private Action action;
 
     public ActionRequest() {
