@@ -10,6 +10,9 @@ public class ActionRequest {
     @JsonProperty
     private Action action;
 
+    public ActionRequest() {
+    }
+
     public ActionRequest(int row, int column, Action action) {
         this.row = row;
         this.column = column;

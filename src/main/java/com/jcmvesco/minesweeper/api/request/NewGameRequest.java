@@ -10,6 +10,15 @@ public class NewGameRequest {
     @JsonProperty("cant_mines")
     private int cantMines;
 
+    public NewGameRequest() {
+    }
+
+    public NewGameRequest(int cantRows, int cantColumns, int cantMines) {
+        this.cantRows = cantRows;
+        this.cantColumns = cantColumns;
+        this.cantMines = cantMines;
+    }
+
     public int getCantRows() {
         return cantRows;
     }

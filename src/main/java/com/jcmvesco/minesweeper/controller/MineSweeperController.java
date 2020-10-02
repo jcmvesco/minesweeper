@@ -21,7 +21,7 @@ import static com.jcmvesco.minesweeper.controller.Utils.mapGameInProgress;
 @Api(value = "/game", tags = { "Game Controller" })
 public class MineSweeperController {
 
-    private GameService gameService;
+    private final GameService gameService;
 
     @Autowired
     public MineSweeperController(GameService gameService) {

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class GameService {
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
     public GameService(GameRepository gameRepository) {

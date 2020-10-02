@@ -35,6 +35,12 @@ public class Cell {
     public Cell() {
     }
 
+    public Cell(int row, int column) {
+        this.row = row;
+        this.column = column;
+        this.state = CellState.CLOSED;
+    }
+
     public Cell(int row, int column, Board board) {
         this.row = row;
         this.column = column;
