@@ -32,6 +32,10 @@ public class Game {
     @Column(name = "moves")
     private int moves;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
+
     public Game() {
     }
 
@@ -179,5 +183,13 @@ public class Game {
 
     public void setMoves(int moves) {
         this.moves = moves;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -5,7 +5,7 @@ import com.jcmvesco.minesweeper.api.request.NewGameRequest;
 import com.jcmvesco.minesweeper.api.response.GameInProgressResponse;
 import com.jcmvesco.minesweeper.api.response.GameResponse;
 import com.jcmvesco.minesweeper.domain.Game;
-import com.jcmvesco.minesweeper.service.GameService;
+import com.jcmvesco.minesweeper.domain.service.GameService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class MineSweeperController {
     @ApiOperation(value = "createNewGame", notes = "Creates a new minesweeper game", response = Long.class)
     @PostMapping
     public ResponseEntity<GameResponse> createNewGame(@RequestBody NewGameRequest request) {
-        Game game = gameService.createNewGame(request.getCantRows(), request.getCantColumns(), request.getCantMines());
+        Game game = gameService.createNewGame(request.getCantRows(), request.getCantColumns(), request.getCantMines(), request.getUserName());
         return new ResponseEntity<>(mapGameInProgress(game), HttpStatus.OK);
     }
 

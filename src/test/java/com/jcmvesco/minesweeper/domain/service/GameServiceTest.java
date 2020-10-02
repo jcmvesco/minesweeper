@@ -1,4 +1,4 @@
-package com.jcmvesco.minesweeper.service;
+package com.jcmvesco.minesweeper.domain.service;
 
 import com.jcmvesco.minesweeper.api.request.Action;
 import com.jcmvesco.minesweeper.domain.Board;
@@ -8,6 +8,7 @@ import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
 import com.jcmvesco.minesweeper.domain.exception.GameFinishedException;
 import com.jcmvesco.minesweeper.domain.exception.GameNotFoundException;
 import com.jcmvesco.minesweeper.domain.repository.GameRepository;
+import com.jcmvesco.minesweeper.domain.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,16 +29,19 @@ class GameServiceTest {
     @Mock
     private GameRepository gameRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.initMocks(this);
-        gameService = new GameService(gameRepository);
+        gameService = new GameService(gameRepository, userRepository);
         when(gameRepository.save(any())).then(returnsFirstArg());
     }
 
     @Test
     void createNewGame() {
-        Game game = gameService.createNewGame(2,3,2);
+        Game game = gameService.createNewGame(2,3,2, "Test");
         ArgumentCaptor<Game> gameCaptor = ArgumentCaptor.forClass(Game.class);
         verify(gameRepository, times(1)).save(gameCaptor.capture());
         assertEquals(6, game.getBoard().getCells().size());

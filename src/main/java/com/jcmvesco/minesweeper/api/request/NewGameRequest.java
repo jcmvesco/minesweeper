@@ -9,14 +9,17 @@ public class NewGameRequest {
     private int cantColumns;
     @JsonProperty("cant_mines")
     private int cantMines;
+    @JsonProperty("user_name")
+    private String userName;
 
     public NewGameRequest() {
     }
 
-    public NewGameRequest(int cantRows, int cantColumns, int cantMines) {
+    public NewGameRequest(int cantRows, int cantColumns, int cantMines, String userName) {
         this.cantRows = cantRows;
         this.cantColumns = cantColumns;
         this.cantMines = cantMines;
+        this.userName = userName;
     }
 
     public int getCantRows() {
@@ -41,5 +44,13 @@ public class NewGameRequest {
 
     public void setCantMines(int cantMines) {
         this.cantMines = cantMines;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -19,6 +19,8 @@ public class GameFinishedResponse implements GameResponse {
     private GameFinishedBoardResponse board;
     @JsonProperty
     private int moves;
+    @JsonProperty
+    private UserResponse user;
 
     public Long getId() {
         return id;
@@ -74,6 +76,14 @@ public class GameFinishedResponse implements GameResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public UserResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserResponse user) {
+        this.user = user;
     }
 
 }

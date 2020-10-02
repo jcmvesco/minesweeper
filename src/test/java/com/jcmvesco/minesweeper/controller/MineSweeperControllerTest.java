@@ -7,9 +7,10 @@ import com.jcmvesco.minesweeper.api.request.NewGameRequest;
 import com.jcmvesco.minesweeper.domain.Board;
 import com.jcmvesco.minesweeper.domain.Game;
 import com.jcmvesco.minesweeper.domain.GameState;
+import com.jcmvesco.minesweeper.domain.User;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
 import com.jcmvesco.minesweeper.domain.exception.GameNotFoundException;
-import com.jcmvesco.minesweeper.service.GameService;
+import com.jcmvesco.minesweeper.domain.service.GameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,8 +46,8 @@ class MineSweeperControllerTest {
 
     @Test
     void createNewGame() throws Exception {
-        when(gameService.createNewGame(anyInt(), anyInt(), anyInt())).thenReturn(createGame());
-        NewGameRequest request = new NewGameRequest(2,4,2);
+        when(gameService.createNewGame(anyInt(), anyInt(), anyInt(), anyString())).thenReturn(createGame());
+        NewGameRequest request = new NewGameRequest(2,4,2, "test");
         mockMvc.perform(post("/api/minesweeper/game")
                 .contextPath("/api/minesweeper")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +55,7 @@ class MineSweeperControllerTest {
                 .content(asJsonString(request)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(gameService, times(1)).createNewGame(anyInt(), anyInt(), anyInt());
+        verify(gameService, times(1)).createNewGame(anyInt(), anyInt(), anyInt(), anyString());
         verifyNoMoreInteractions(gameService);
     }
 
@@ -152,6 +153,9 @@ class MineSweeperControllerTest {
         board.setId(1L);
         Game game = new Game(board);
         game.setId(1L);
+        User user = new User("Test");
+        user.setId(1L);
+        game.setUser(user);
         return game;
     }
 }

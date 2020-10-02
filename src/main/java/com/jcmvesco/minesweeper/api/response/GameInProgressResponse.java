@@ -17,6 +17,8 @@ public class GameInProgressResponse implements GameResponse {
     private GameInProgressBoardResponse board;
     @JsonProperty
     private int moves;
+    @JsonProperty
+    private UserResponse user;
 
     public Long getId() {
         return id;
@@ -64,5 +66,13 @@ public class GameInProgressResponse implements GameResponse {
 
     public void setMoves(int moves) {
         this.moves = moves;
+    }
+
+    public UserResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserResponse user) {
+        this.user = user;
     }
 }

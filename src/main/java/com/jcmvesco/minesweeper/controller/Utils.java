@@ -10,20 +10,22 @@ import java.util.stream.Collectors;
 public class Utils {
     public static GameResponse mapGameInProgress(Game game) {
         List<GameInProgressCellResponse> cellResponseList = game.getBoard().getCells().stream().map(c -> new GameInProgressCellResponse(c.getRow(), c.getColumn(), c.getNeighborMinesCant(), c.getState().name())).collect(Collectors.toList());
-        GameInProgressBoardResponse gameInProgressBoardResponse = new GameInProgressBoardResponse();
-        gameInProgressBoardResponse.setCells(cellResponseList);
+        GameInProgressBoardResponse boardResponse = new GameInProgressBoardResponse();
+        boardResponse.setCells(cellResponseList);
         Board board = game.getBoard();
-        gameInProgressBoardResponse.setRows(board.getCantRows());
-        gameInProgressBoardResponse.setColumns(board.getCantColumns());
-        gameInProgressBoardResponse.setMines(board.getCantMines());
-        GameInProgressResponse gameInProgressResponse = new GameInProgressResponse();
-        gameInProgressResponse.setId(game.getId());
-        gameInProgressResponse.setState(game.getState().name());
-        gameInProgressResponse.setStarted(game.getStartTime());
-        gameInProgressResponse.setEnded(game.getEndTime());
-        gameInProgressResponse.setBoard(gameInProgressBoardResponse);
-        gameInProgressResponse.setMoves(game.getMoves());
-        return gameInProgressResponse;
+        boardResponse.setRows(board.getCantRows());
+        boardResponse.setColumns(board.getCantColumns());
+        boardResponse.setMines(board.getCantMines());
+        GameInProgressResponse gameResponse = new GameInProgressResponse();
+        gameResponse.setId(game.getId());
+        gameResponse.setState(game.getState().name());
+        gameResponse.setStarted(game.getStartTime());
+        gameResponse.setEnded(game.getEndTime());
+        gameResponse.setBoard(boardResponse);
+        gameResponse.setMoves(game.getMoves());
+        UserResponse userResponse = new UserResponse(game.getUser().getId(), game.getUser().getName());
+        gameResponse.setUser(userResponse);
+        return gameResponse;
     }
 
     public static GameResponse mapGameFinished(Game game) {
@@ -42,6 +44,8 @@ public class Utils {
         gameResponse.setBoard(boardResponse);
         gameResponse.setMoves(game.getMoves());
         gameResponse.setMessage("Game finished");
+        UserResponse userResponse = new UserResponse(game.getUser().getId(), game.getUser().getName());
+        gameResponse.setUser(userResponse);
         return gameResponse;
     }
 }
