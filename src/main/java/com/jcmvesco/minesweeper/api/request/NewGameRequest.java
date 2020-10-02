@@ -1,4 +1,4 @@
-package com.jcmvesco.minesweeper.api;
+package com.jcmvesco.minesweeper.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

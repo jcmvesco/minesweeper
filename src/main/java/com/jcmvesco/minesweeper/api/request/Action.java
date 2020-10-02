@@ -1,4 +1,4 @@
-package com.jcmvesco.minesweeper.api;
+package com.jcmvesco.minesweeper.api.request;
 
 public enum Action {
     DISCOVER,

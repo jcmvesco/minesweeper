@@ -1,6 +1,6 @@
 package com.jcmvesco.minesweeper.service;
 
-import com.jcmvesco.minesweeper.api.Action;
+import com.jcmvesco.minesweeper.api.request.Action;
 import com.jcmvesco.minesweeper.domain.Board;
 import com.jcmvesco.minesweeper.domain.Game;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;

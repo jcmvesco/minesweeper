@@ -32,7 +32,6 @@ public class Board {
         this.cantMines = cantMines;
 
         populateCells();
-        populateMines();
     }
 
     private void populateCells() {
@@ -43,23 +42,39 @@ public class Board {
         }
     }
 
-    private void populateMines() {
+    /**
+     * Populates the game board with mines, except in the cell of the first move choice
+     * @param row row position of the cell
+     * @param column column position of the cell
+     */
+    public void populateMines(int row, int column) {
         int mines = 0;
-        while(mines <= cantMines){
+        do {
             int index = (int) (Math.random() * cells.size());
             Cell cell = cells.get(index);
-            if(!cell.isMine()) {
+            if(!cell.isMine() && cell.getRow() != row && cell.getColumn() != column) {
                 cell.setMine(true);
                 mines++;
             }
-        }
+        } while(mines < cantMines);
     }
 
+    /**
+     * Retrieves the cell of the given position
+     * @param row row position of the cell
+     * @param column column position of the cell
+     * @return the selected cell
+     */
     public Cell getCell(int row, int column) {
         int index = row * cantColumns + column;
         return cells.get(index);
     }
 
+    /**
+     * Retrieves the list of all cells adjacent to the given one
+     * @param cell the given cell
+     * @return the list of the cell's neightbors
+     */
     public List<Cell> getNeighbors(Cell cell) {
         return cells.stream().filter(c -> c.isNeighborOf(cell)).collect(Collectors.toList());
     }

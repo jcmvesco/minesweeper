@@ -66,6 +66,12 @@ public class Cell {
         this.setState(CellState.CLOSED);
     }
 
+    /**
+     * Opens itself and change its state to OPENED or EXPLODED. If the cell can be opened and all of it's neighbors are no mined,
+     * then they will be opened too. This will be repeated with every new cell opened, until any neighbor with a bomb appears
+     * @throws CellExplodedException if the cell has a mine on it
+     * @throws CellCannotBeOpenedException if the cell is already opened, flagged or marked
+     */
     public void discover() throws CellExplodedException, CellCannotBeOpenedException {
         if(isAbleToOpen()){
             if(isMine()){
@@ -91,6 +97,11 @@ public class Cell {
         return CellState.CLOSED.equals(this.state);
     }
 
+    /**
+     * Validates if this cell is neighbor of the given one
+     * @param cell to be compared
+     * @return true if the cells are neighbors between them
+     */
     public boolean isNeighborOf(Cell cell) {
         return this != cell && Math.abs(this.column - cell.getColumn()) <= 1 && Math.abs(this.row - cell.getRow()) <= 1;
     }
