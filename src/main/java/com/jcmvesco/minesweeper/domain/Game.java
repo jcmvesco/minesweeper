@@ -58,7 +58,7 @@ public class Game {
      * @param column column position of the cell
      * @throws CellCannotBeOpenedException if the cell cannot be opened
      */
-    public void discoverCell(int row, int column) throws CellCannotBeOpenedException {
+    public void discoverCell(int row, int column) {
         try {
             if(GameState.CREATED.equals(this.state)) {
                 start(row, column);
@@ -126,7 +126,7 @@ public class Game {
     }
 
     /**
-     * Validates if the current game is still in curse
+     * Validates if the current game is still in progress
      * @return true if the game is not in WON or LOST state
      */
     public boolean isNotEnded() {

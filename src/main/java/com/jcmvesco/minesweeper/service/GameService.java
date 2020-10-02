@@ -26,7 +26,7 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public Game takeAction(Long id, int row, int column, Action action) throws CellCannotBeOpenedException {
+    public Game takeAction(Long id, int row, int column, Action action) {
         Game game = findById(id);
         if(game.isNotEnded()) {
             try {
@@ -58,7 +58,7 @@ public class GameService {
         if(gameOptional.isPresent()) {
             return gameOptional.get();
         } else {
-            throw new GameNotFoundException();
+            throw new GameNotFoundException(String.format("Game with id %d not exists", id));
         }
     }
 }

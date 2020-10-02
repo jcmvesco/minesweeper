@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class BoardResponse {
+public class GameFinishedBoardResponse {
     @JsonProperty
     private int rows;
     @JsonProperty
@@ -12,7 +12,7 @@ public class BoardResponse {
     @JsonProperty
     private int mines;
     @JsonProperty
-    private List<CellResponse> cells;
+    private List<GameFinishedCellResponse> cells;
 
     public int getRows() {
         return rows;
@@ -38,11 +38,11 @@ public class BoardResponse {
         this.mines = mines;
     }
 
-    public List<CellResponse> getCells() {
+    public List<GameFinishedCellResponse> getCells() {
         return cells;
     }
 
-    public void setCells(List<CellResponse> cells) {
+    public void setCells(List<GameFinishedCellResponse> cells) {
         this.cells = cells;
     }
 }

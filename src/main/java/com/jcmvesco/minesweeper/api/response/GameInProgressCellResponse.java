@@ -2,22 +2,19 @@ package com.jcmvesco.minesweeper.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CellResponse {
+public class GameInProgressCellResponse {
     @JsonProperty
     private int row;
     @JsonProperty
     private int column;
     @JsonProperty
-    private boolean mine;
-    @JsonProperty
     private Integer neighborMinesCant;
     @JsonProperty
     private String state;
 
-    public CellResponse(int row, int column, boolean mine, Integer neighborMinesCant, String state) {
+    public GameInProgressCellResponse(int row, int column, Integer neighborMinesCant, String state) {
         this.row = row;
         this.column = column;
-        this.mine = mine;
         this.neighborMinesCant = neighborMinesCant;
         this.state = state;
     }
@@ -44,14 +41,6 @@ public class CellResponse {
 
     public void setNeighborMinesCant(Integer neighborMinesCant) {
         this.neighborMinesCant = neighborMinesCant;
-    }
-
-    public boolean isMine() {
-        return mine;
-    }
-
-    public void setMine(boolean mine) {
-        this.mine = mine;
     }
 
     public String getState() {
