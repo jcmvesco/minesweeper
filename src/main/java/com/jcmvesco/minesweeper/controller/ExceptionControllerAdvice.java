@@ -1,7 +1,7 @@
 package com.jcmvesco.minesweeper.controller;
 
-import com.jcmvesco.minesweeper.api.response.GameResponse;
 import com.jcmvesco.minesweeper.api.response.GameFinishedResponse;
+import com.jcmvesco.minesweeper.api.response.GameResponse;
 import com.jcmvesco.minesweeper.domain.GameState;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeFlaggedOrMarkedException;
 import com.jcmvesco.minesweeper.domain.exception.CellCannotBeOpenedException;
@@ -29,6 +29,11 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler
     ResponseEntity<String> handleException(MethodArgumentNotValidException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    ResponseEntity<String> handleException(IllegalArgumentException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 

@@ -18,6 +18,14 @@ public class GameService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
 
+    private static final int MAX_ROWS = 30;
+    private static final int MAX_COLUMNS = 30;
+    private static final int MAX_MINES = 99;
+
+    private static final int MIN_ROWS = 2;
+    private static final int MIN_COLUMNS = 2;
+    private static final int MIN_MINES = 1;
+
     @Autowired
     public GameService(GameRepository gameRepository, UserRepository userRepository) {
         this.gameRepository = gameRepository;
@@ -25,6 +33,7 @@ public class GameService {
     }
 
     public Game createNewGame (int rows, int columns, int mines, String userName) {
+        validate(rows, columns, mines, userName);
         User user = userRepository.findByName(userName);
         if(user == null) {
             user = new User(userName);
@@ -34,6 +43,18 @@ public class GameService {
         Game game = new Game(board);
         game.setUser(user);
         return gameRepository.save(game);
+    }
+
+    private void validate(int rows, int columns, int mines, String userName) {
+        if(rows > MAX_ROWS || columns > MAX_COLUMNS || mines > MAX_MINES) {
+            throw new IllegalArgumentException(String.format("Max size for rows is %d, for columns is %d and for mines is %d", MAX_ROWS, MAX_COLUMNS, MAX_MINES));
+        }
+        if(rows < 2 || columns < 2 || mines < 1) {
+            throw new IllegalArgumentException(String.format("There should be at least %d rows, %d columns and %d mines", MIN_ROWS, MIN_COLUMNS, MIN_MINES));
+        }
+        if(mines > rows * columns) {
+            throw new IllegalArgumentException("The amount of mines can't be greater than existing cells");
+        }
     }
 
     public Game takeAction(Long id, int row, int column, Action action) {
